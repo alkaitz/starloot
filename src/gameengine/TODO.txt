@@ -1,0 +1,19 @@
+/**
+ * List of FEATURES to be developed for the MiLo Engine
+ * By default a feature is pending
+ * DEV-In Development
+ * FIN-Finished
+ * TES-Finished and fully tested (This is achieved only with a related independent test)
+ */
+ 
+VERSION 0.0
+--------------------------------
+All things done so-far 24/04/2013 - FIN
+ 
+VERSION 0.1
+--------------------------------
+ML-1: Add the Y-buffer system for the node rendering - DEV
+ML-2: Add Entity hierarchy for sub-entity updating - FIN
+ML-3: Add Particle System. Point of generation, starting direction, 
+       range of particle moving speeds, range of sizes.
+ML-4: Add net layer using websockets.

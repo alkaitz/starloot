@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<node>
+	<numAnimations value="1"/>
+	<numFrames x="8" y="4"/>
+	<sizeOfSprites x="128" y="128"/>
+	<files>
+		<file value="reconn"/>
+	</files>
+</node>
