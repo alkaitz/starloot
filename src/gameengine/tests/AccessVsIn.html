@@ -1,0 +1,32 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<applet code="nano" archive="lib\nano.jar"></applet>
+	<script type="text/javascript" src="lib\benchmark.js"></script>
+	<script type="text/javascript">
+		var array = [];
+		for(var i = 0; i <= 100000; i++){
+			array[i+'wat'] = i;
+		}
+
+		var suite = new Benchmark.Suite;
+
+		suite.add('AccesTest',function(){
+			var v = array['1000000wat'];
+		}).add('InTest',function(){
+			var b = '1000000wat' in array;
+		}).on('cycle', function(event) {
+		  console.log(String(event.target));
+		})
+		.on('complete', function() {
+		  console.log('Fastest is ' + this.filter('fastest').pluck('name'));
+		})
+		// run async
+		.run({ 'async': true });
+
+	</script>
+
+</body>
+</html>
