@@ -1,0 +1,73 @@
+#summary Events handling in game engine
+#labels Phase-Design
+
+= Introduction =
+
+This wiki is intented to describe the managing and handling of events, in any way that they may come from: hardware or software.
+
+= Architecture =
+
+The system tries to adapt two common software engineering patterns: composite and chain of responsibility. They are not adapted in the usual way, as javascript limits the object orientation development.
+We may split, then, the system in *two* main groups:
+  * Handler emmiters
+  * Handler receivers
+A handler emmiter is in charge of getting the initial conditions that sastifies the event launch. An example of this is the _mouse_ events handler. This object captures all the different mouse events and warns the system with the _inner event_ dispatched.
+A handler receiver is an object that may be the destiny of a given event launched. This object will receive the event threw and will decide if capturing it and doing something, or any other response.
+
+Between this two elements there is a composed architecture that we call _Groups_. This architecture is based in a tree designed system that will lay responsability in a *postorder* search.
+
+Here is an example of the tree:
+
+-- root
+  -- board
+    -- buildings
+      + building1
+      + building2
+      + building3
+      + building4      
+    -- scouts
+      + scout1
+      + scout2
+      + scout3
+      + scout4
+  + camera
+
+Any group may have, as a child, a final node (+) or a new group (--) that will behave the same one as its parent.
+
+So, the only duty to _event emmiters_ is to send to the root group the notification of the event. This will be explained in the Protocol section.
+And the only duty of an _event receiver_ is to implement the interface to receive a specific event. If this is not done is considered that those events will not affect that specific object.
+
+= Protocol =
+
+The protocol is quite simple. For _emmiters_ is to advise the root node with the following sentence:
+
+   `root.onevent('interface', evt);` 
+
+This will manage automatically the event passing-model. The arguments will be as follows:
+ * 'interface' - A String of the _interface_ to be implemented in the event receivers.
+ * evt - It will be the event information object.
+
+For instance, to send an event handling whenever a mouse click happens we must write:
+
+   `root.onevent('onclick', evt);`
+
+And the received has to have to following:
+
+   `this.onclick = function(evt){`
+
+   `//... does something`
+      `return false; // *THIS IS IMPORTANT. Note 1*`
+   `};`
+
+_Note 1_: Every event receiver that implements an interface *has* to return a boolean value that means *captured*. If that object captured the event means that noone else will be able to handle it, as it has reached its destination. Otherwise, the event will follow to notify everyone else.
+
+
+= Implementation =
+
+Here will be described the _interface_ that are currently implemented in the system. Whenever a new one is implemented it *has to* be explained here:
+
+*onclick* 
+ * Mouse click. Event values:
+  - evt.x: X position of clicked mouse
+  - evt.y: Y position of clicked mouse
+... (To be completed)
